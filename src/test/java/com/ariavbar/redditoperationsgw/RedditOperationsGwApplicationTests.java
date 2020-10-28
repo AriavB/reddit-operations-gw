@@ -20,13 +20,7 @@ class RedditOperationsGwApplicationTests {
 	
 	@Test
 	void getUserIdentityTest() {
-		String result = null;
-				try {
-					result = redditOperationsController.getUserIdentity();
-				} catch(Exception e) {
-					e.getMessage();
-					e.getCause();
-				}
+		String result = redditOperationsController.getUserIdentity();
 		assertNotNull(result);
 	}
 

@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.security.oauth2.client.OAuth2ClientContext;
 import org.springframework.security.oauth2.client.OAuth2RestTemplate;
 import org.springframework.security.oauth2.client.token.AccessTokenProvider;
@@ -28,19 +29,18 @@ public class RedditTemplate {
         details.setTokenName("access_token");
         details.setScope(Arrays.asList("identity"));
    
-
         return details;
     }
  
     @Bean
     public OAuth2RestTemplate redditRestTemplate(OAuth2ClientContext clientContext) {
         OAuth2RestTemplate template = new OAuth2RestTemplate(reddit(), clientContext);
-		AccessTokenProvider accessTokenProvider = new AccessTokenProviderChain(List.of(new ClientCredentialsAccessTokenProvider()));
+		List<ClientHttpRequestInterceptor> interceptors = List.of(new UserAgentInterceptor());
+        ClientCredentialsAccessTokenProvider tokenProvider = new ClientCredentialsAccessTokenProvider();
+		tokenProvider.setInterceptors(interceptors);
+        AccessTokenProvider accessTokenProvider = new AccessTokenProviderChain(List.of(tokenProvider));
         template.setAccessTokenProvider(accessTokenProvider);
-        template.getClientHttpRequestInitializers().add(request -> {
-        	request.getHeaders().add("User-Agent", "web:com.ariavbar.redditoperationsgw:v0.0.1");
-				
-		});
+        template.setInterceptors(interceptors);
         
         return template;
     }

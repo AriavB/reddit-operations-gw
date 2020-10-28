@@ -12,12 +12,12 @@ import lombok.RequiredArgsConstructor;
 @RestController
 public class RedditOperationsController {
 	
-	private static final String BASE_URL = "https://www.reddit.com";
+	private static final String BASE_URL = "https://oauth.reddit.com";
 	private final OAuth2RestTemplate redditTemplate;
 	
 	@GetMapping("/me")
 	public String getUserIdentity() {
-		return redditTemplate.getForObject(BASE_URL + "/api/v1/scopes", String.class);
+		return redditTemplate.getForObject(BASE_URL + "/api/v1/me", String.class);
 	}
 	
 }
