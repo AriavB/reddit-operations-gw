@@ -1,0 +1,9 @@
+# Reddit OAuth2 Resource
+reddit:
+  clientId: xHvF-hRD6mmEcQ
+  clientSecret: GWHVKhndTGwMBTwjE19plgrjPmk
+  accessTokenUri: https://www.reddit.com/api/v1/access_token
+  tokenName: oauth_token
+  scope:
+    - identity
+  userAuthorizationUri: https://www.reddit.com/api/v1/authorize
